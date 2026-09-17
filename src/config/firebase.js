@@ -1,26 +1,13 @@
-<<<<<<< HEAD
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getApp, getApps, initializeApp } from "firebase/app";
 import {
-  getAuth,
-  getReactNativePersistence,
-  initializeAuth
-} from "firebase/auth";
-import { Platform } from "react-native";
-
-=======
-import { Platform } from "react-native";
-import { initializeApp, getApps, getApp } from "firebase/app";
-import {
-  getAuth,
-  initializeAuth,
-  getReactNativePersistence,
   browserLocalPersistence,
+  getAuth,
+  getReactNativePersistence,
+  initializeAuth,
 } from "firebase/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Platform } from "react-native";
 
-// Config do projeto Firebase "achanoif2" (mesmo usado pelo painel de funcionários).
->>>>>>> 76bc0a53c6c01c8f29dea2d54a309ed71f2dd73c
 const firebaseConfig = {
   apiKey: "AIzaSyCPlhId9WflsQAPKzD5Ue5gZsuzqm-Oemk",
   authDomain: "achanoif2.firebaseapp.com",
@@ -31,28 +18,12 @@ const firebaseConfig = {
   measurementId: "G-HNNXHVESFS",
 };
 
-<<<<<<< HEAD
-const app = getApps().length === 0
-  ? initializeApp(firebaseConfig)
-  : getApp();
+const app = getApps().length
+  ? getApp()
+  : initializeApp(firebaseConfig);
 
 let auth;
 
-if (Platform.OS === "web") {
-  auth = getAuth(app);
-} else {
-  try {
-    auth = initializeAuth(app, {
-      persistence: getReactNativePersistence(AsyncStorage),
-    });
-  } catch (error) {
-    auth = getAuth(app);
-  }
-=======
-// Evita reinicializar o app em hot-reload.
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-
-let auth;
 try {
   auth = initializeAuth(app, {
     persistence:
@@ -60,10 +31,8 @@ try {
         ? browserLocalPersistence
         : getReactNativePersistence(AsyncStorage),
   });
-} catch {
-  // Se o auth já foi inicializado (hot-reload), reaproveita a instância existente.
+} catch (error) {
   auth = getAuth(app);
->>>>>>> 76bc0a53c6c01c8f29dea2d54a309ed71f2dd73c
 }
 
 export { app, auth };
